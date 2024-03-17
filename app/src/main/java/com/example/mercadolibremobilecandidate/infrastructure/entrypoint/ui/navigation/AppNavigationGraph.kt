@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.detail.DetailsScreen
 import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results.view.ResultsScreen
 import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.search.SearchScreen
 
@@ -19,11 +20,19 @@ fun AppNavigationGraph() {
     ) {
 
         composable(Routes.SEARCH) { SearchScreen(navController) }
+
         composable("RESULT/{query}",
             arguments = listOf(navArgument("query") { type = NavType.StringType })
         ) { backStackEntry ->
-            ResultsScreen(backStackEntry.arguments?.getString("query") ?: "")
+            ResultsScreen(navController, backStackEntry.arguments?.getString("query") ?: "")
         }
+
+        composable("DETAILS/{productName}",
+            arguments = listOf(navArgument("productName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            DetailsScreen(backStackEntry.arguments?.getString("productName") ?: "")
+        }
+
 
 
 
