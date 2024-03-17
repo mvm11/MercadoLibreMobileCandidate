@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results.ResultsScreen
+import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results.view.ResultsScreen
 import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.search.SearchScreen
 
 @Composable
