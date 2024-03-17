@@ -12,23 +12,17 @@ import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.resu
 import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.search.SearchScreen
 
 @Composable
-fun AppNavigationGraph() {
+fun AppNavigationGraph(viewModel: ResultsViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Routes.SEARCH) {
-
         composable(Routes.SEARCH) { SearchScreen(navController) }
-
         composable(
             "RESULT/{query}",
             arguments = listOf(navArgument("query") { type = NavType.StringType })
         ) { backStackEntry ->
             val query = backStackEntry.arguments?.getString("query") ?: ""
-            val viewModel = ResultsViewModel()
-            ResultsScreen(query,
-                onQueryChanged = { viewModel.setQuery(it) },
-                viewModel = viewModel,
-                navController = navController)
+            ResultsScreen(query, onQueryChanged = { viewModel.setQuery(it) }, viewModel = viewModel, navController = navController)
         }
         composable(
             "DETAILS/{productName}",

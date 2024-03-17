@@ -2,6 +2,7 @@ package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.res
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mercadolibremobilecandidate.application.searchresult.SearchProductsUseCase
 import com.example.mercadolibremobilecandidate.domain.searchresult.model.SearchResult
 import com.example.mercadolibremobilecandidate.infrastructure.drivenadapter.restclient.mercadolibre.MercadoLibreApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,9 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ResultsViewModel : ViewModel() {
+class ResultsViewModel(
+    private val searchProductsUseCase: SearchProductsUseCase
+) : ViewModel() {
 
     private val _query = MutableStateFlow("")
 
@@ -39,7 +42,7 @@ class ResultsViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val result = mercadoLibreApi.searchProducts(query)
+                val result = searchProductsUseCase.invoke(query)
                 _products.value = result
             } catch (e: Exception) {
                 // Handle the error
