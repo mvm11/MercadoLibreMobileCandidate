@@ -24,28 +24,29 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mercadolibremobilecandidate.R
-import com.example.mercadolibremobilecandidate.infrastructure.ui.navigation.Routes
 
 
 @Composable
 fun SearchScreen(navController: NavHostController) {
+
     var query by remember { mutableStateOf("") }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Search(
             modifier = Modifier.fillMaxSize(),
+            query,
             onQueryChange = { query = it },
-            onSearch = { navController.navigate(Routes.RESULT)}
+            onSearch = { navController.navigate("RESULT/$query")}
         )
     }
 }
 
 @Composable
-fun Search(modifier: Modifier, onQueryChange: (String) -> Unit, onSearch: () -> Unit) {
+fun Search(modifier: Modifier, query: String, onQueryChange: (String) -> Unit, onSearch: () -> Unit) {
     Column(modifier = modifier) {
         HeaderImage(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.padding(16.dp))
-        QueryField("", onQueryChange)
+        QueryField(query, onQueryChange)
         Spacer(modifier = Modifier.padding(4.dp))
         SearchButton(onSearch)
     }
@@ -63,11 +64,10 @@ fun HeaderImage(modifier: Modifier) {
 @Composable
 fun QueryField(query: String, onQueryChange: (String) -> Unit) {
 
-    var query: String by remember { mutableStateOf("")}
 
     TextField(
         value = query,
-        onValueChange = {query = it},
+        onValueChange = onQueryChange,
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = "Buscar en Mercado Libre") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
