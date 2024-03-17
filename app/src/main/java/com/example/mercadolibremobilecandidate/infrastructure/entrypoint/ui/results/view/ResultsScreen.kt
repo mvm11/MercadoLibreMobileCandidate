@@ -17,9 +17,8 @@ import com.example.mercadolibremobilecandidate.domain.product.model.Product
 import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results.viewmodel.ResultsViewModel
 
 @Composable
-fun ResultsScreen(navController: NavHostController, query: String, viewModel: ResultsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
-
-    viewModel.setQuery(query)
+fun ResultsScreen(query: String, onQueryChanged: (String) -> Unit, viewModel: ResultsViewModel, navController: NavHostController) {
+    onQueryChanged(query)
 
     val products = viewModel.products.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
