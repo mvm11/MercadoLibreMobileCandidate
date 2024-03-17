@@ -1,4 +1,4 @@
-package com.example.mercadolibremobilecandidate.infrastructure.ui.results
+package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth

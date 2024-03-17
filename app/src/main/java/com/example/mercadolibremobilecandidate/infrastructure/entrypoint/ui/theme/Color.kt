@@ -1,4 +1,4 @@
-package com.example.mercadolibremobilecandidate.infrastructure.ui.theme
+package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

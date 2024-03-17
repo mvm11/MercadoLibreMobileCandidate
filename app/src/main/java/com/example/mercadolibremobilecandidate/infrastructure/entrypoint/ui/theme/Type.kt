@@ -1,4 +1,4 @@
-package com.example.mercadolibremobilecandidate.infrastructure.ui.theme
+package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

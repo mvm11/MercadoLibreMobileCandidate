@@ -1,4 +1,4 @@
-package com.example.mercadolibremobilecandidate.infrastructure.ui.search
+package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
