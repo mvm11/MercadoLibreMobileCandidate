@@ -12,9 +12,9 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ResultsViewModel(
-    private val searchProductsUseCase: SearchProductsUseCase
-) : ViewModel() {
+class ResultsViewModel() : ViewModel() {
+
+    private val searchProductsUseCase: SearchProductsUseCase = SearchProductsUseCase()
 
     private val _query = MutableStateFlow("")
 
