@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -68,8 +70,7 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.44.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
-
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
 
     // Test dependencies
@@ -84,4 +85,8 @@ dependencies {
     // Debug dependencies
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt {
+    correctErrorTypes = true
 }
