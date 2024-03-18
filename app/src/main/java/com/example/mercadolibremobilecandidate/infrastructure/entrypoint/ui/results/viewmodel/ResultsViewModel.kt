@@ -2,8 +2,8 @@ package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.res
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mercadolibremobilecandidate.application.searchresult.usecase.SearchProductsUseCase
-import com.example.mercadolibremobilecandidate.domain.searchresult.model.SearchResult
+import com.example.mercadolibremobilecandidate.application.product.usecase.SearchProductsUseCase
+import com.example.mercadolibremobilecandidate.domain.product.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,8 +21,8 @@ constructor(private val searchProductsUseCase: SearchProductsUseCase) : ViewMode
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    private val _products = MutableStateFlow(SearchResult(emptyList()))
-    val products: StateFlow<SearchResult> = _products.asStateFlow()
+    private val _products = MutableStateFlow<List<Product>>(emptyList())
+    val products: StateFlow<List<Product>> = _products.asStateFlow()
 
     fun setQuery(newQuery: String) {
         if (newQuery.isNotEmpty() && newQuery != _query.value) {

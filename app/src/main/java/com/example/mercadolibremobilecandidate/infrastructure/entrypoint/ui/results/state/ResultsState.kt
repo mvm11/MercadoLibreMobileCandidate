@@ -1,9 +1,9 @@
 package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results.state
 
-import com.example.mercadolibremobilecandidate.domain.searchresult.model.SearchResult
+import com.example.mercadolibremobilecandidate.domain.product.model.Product
 
 data class ResultsState(
     val isLoading: Boolean = false,
-    val searchResult: SearchResult = SearchResult(emptyList()),
+    val products: List<Product> = emptyList(),
     val query: String = ""
 )

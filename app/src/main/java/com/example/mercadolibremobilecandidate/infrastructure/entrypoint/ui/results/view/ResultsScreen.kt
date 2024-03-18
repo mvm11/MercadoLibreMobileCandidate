@@ -31,7 +31,7 @@ fun ResultsScreen(query: String,
         Text(text = "Cargando...")
     } else {
         LazyColumn {
-            items(products.results) { product ->
+            items(products) { product ->
                 ProductItem(product, navController)
             }
         }
