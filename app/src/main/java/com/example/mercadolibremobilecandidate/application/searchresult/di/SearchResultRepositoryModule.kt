@@ -9,8 +9,8 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class SearchResultRepositoryModule {
+fun interface SearchResultRepositoryModule {
 
     @Binds
-    abstract fun bindSearchResultRepository(impl: SearchResultRepositoryImpl): SearchResultRepository
+    fun bindSearchResultRepository(impl: SearchResultRepositoryImpl): SearchResultRepository
 }
