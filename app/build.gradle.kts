@@ -75,6 +75,8 @@ dependencies {
 
     // Test dependencies
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:4.6.1")
+
 
     // Android Test dependencies
     androidTestImplementation(libs.androidx.junit)
