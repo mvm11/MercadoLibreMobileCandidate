@@ -12,13 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.mercadolibremobilecandidate.domain.product.model.Product
 import com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.results.viewmodel.ResultsViewModel
 
 @Composable
-fun ResultsScreen(query: String, onQueryChanged: (String) -> Unit, viewModel: ResultsViewModel, navController: NavHostController) {
-    onQueryChanged(query)
+fun ResultsScreen(query: String,
+                  viewModel: ResultsViewModel = hiltViewModel(),
+                  navController: NavHostController) {
+
+    viewModel.setQuery(query)
 
     val products = viewModel.products.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value

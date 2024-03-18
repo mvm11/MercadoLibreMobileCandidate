@@ -2,19 +2,19 @@ package com.example.mercadolibremobilecandidate.infrastructure.entrypoint.ui.res
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mercadolibremobilecandidate.application.searchresult.SearchProductsUseCase
+import com.example.mercadolibremobilecandidate.application.searchresult.usecase.SearchProductsUseCase
 import com.example.mercadolibremobilecandidate.domain.searchresult.model.SearchResult
-import com.example.mercadolibremobilecandidate.infrastructure.drivenadapter.restclient.mercadolibre.MercadoLibreApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class ResultsViewModel() : ViewModel() {
+@HiltViewModel
+class ResultsViewModel @Inject
+constructor(private val searchProductsUseCase: SearchProductsUseCase) : ViewModel() {
 
-    private val searchProductsUseCase: SearchProductsUseCase = SearchProductsUseCase()
 
     private val _query = MutableStateFlow("")
 
@@ -23,13 +23,6 @@ class ResultsViewModel() : ViewModel() {
 
     private val _products = MutableStateFlow(SearchResult(emptyList()))
     val products: StateFlow<SearchResult> = _products.asStateFlow()
-
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.mercadolibre.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val mercadoLibreApi: MercadoLibreApi = retrofit.create(MercadoLibreApi::class.java)
 
     fun setQuery(newQuery: String) {
         if (newQuery.isNotEmpty() && newQuery != _query.value) {

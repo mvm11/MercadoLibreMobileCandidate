@@ -4,7 +4,7 @@ import com.example.mercadolibremobilecandidate.domain.searchresult.model.SearchR
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MercadoLibreApi {
+fun interface MercadoLibreApi {
     @GET("sites/MCO/search")
     suspend fun searchProducts(
         @Query("q") query: String
