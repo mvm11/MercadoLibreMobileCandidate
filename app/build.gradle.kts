@@ -64,19 +64,19 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.moshi.kotlin)
 
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
 
     // Test dependencies
     testImplementation(libs.junit)
-    testImplementation("org.mockito:mockito-core:4.6.1")
-    testImplementation("org.mockito:mockito-inline:4.5.1")
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
 
 
 
