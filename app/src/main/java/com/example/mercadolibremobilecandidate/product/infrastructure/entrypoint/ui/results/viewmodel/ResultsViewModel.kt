@@ -3,7 +3,9 @@ package com.example.mercadolibremobilecandidate.product.infrastructure.entrypoin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mercadolibremobilecandidate.product.app.usecase.SearchProductsUseCase
+import com.example.mercadolibremobilecandidate.product.domain.error.DomainError
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
+import com.example.mercadolibremobilecandidate.product.domain.model.DomainResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +14,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ResultsViewModel @Inject
-constructor(private val searchProductsUseCase: SearchProductsUseCase) : ViewModel() {
+class ResultsViewModel @Inject constructor(private val searchProductsUseCase: SearchProductsUseCase) :
+    ViewModel() {
 
 
     private val _query = MutableStateFlow("")
@@ -24,23 +26,31 @@ constructor(private val searchProductsUseCase: SearchProductsUseCase) : ViewMode
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products.asStateFlow()
 
+    private val _error = MutableStateFlow<DomainError?>(null)
+    val error: StateFlow<DomainError?> = _error.asStateFlow()
+
+
     fun setQuery(newQuery: String) {
-        if (newQuery.isNotEmpty() && newQuery != _query.value) {
-            _query.value = newQuery
-            searchProducts(newQuery)
+        newQuery.takeIf { it.isNotEmpty() && it != _query.value }?.let {
+            _query.value = it
+            searchProducts(it)
         }
     }
+
 
     private fun searchProducts(query: String) {
         viewModelScope.launch {
             _isLoading.value = true
-            try {
-                val result = searchProductsUseCase.invoke(query)
-                _products.value = result
-            } catch (e: Exception) {
-                // Handle the error
-            } finally {
-                _isLoading.value = false
+            when (val result = searchProductsUseCase(query)) {
+                is DomainResult.Success -> {
+                    _products.value = result.data
+                    _isLoading.value = false
+                }
+
+                is DomainResult.Error -> {
+                    _error.value = result.error
+                    _isLoading.value = false
+                }
             }
         }
     }

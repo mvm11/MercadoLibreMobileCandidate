@@ -26,13 +26,21 @@ fun ResultsScreen(query: String,
 
     val products = viewModel.products.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
+    val error = viewModel.error.collectAsState().value
 
-    if (isLoading) {
-        Text(text = "Cargando...")
-    } else {
-        LazyColumn {
-            items(products) { product ->
-                ProductItem(product, navController)
+
+    when {
+        isLoading -> {
+            Text(text = "Cargando...")
+        }
+        error != null -> {
+            Text(text = error.getMessage())
+        }
+        else -> {
+            LazyColumn {
+                items(products) { product ->
+                    ProductItem(product, navController)
+                }
             }
         }
     }

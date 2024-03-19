@@ -1,12 +1,12 @@
 package com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.impl
 
+
+import com.example.mercadolibremobilecandidate.product.domain.error.ErrorFactory
+import com.example.mercadolibremobilecandidate.product.domain.model.DomainResult
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
 import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.api.MercadoLibreAPI
 import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.response.ApiResponse
 import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.response.Paging
-import org.junit.Assert.*
-
-
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -16,8 +16,9 @@ import org.mockito.Mockito.`when`
 
 class ProductRepositoryImplTest {
 
+    private val errorFactory = mock(ErrorFactory::class.java)
     private val mercadoLibreApi = mock(MercadoLibreAPI::class.java)
-    private val productRepository = ProductRepositoryImpl(mercadoLibreApi)
+    private val productRepository = ProductRepositoryImpl(mercadoLibreApi, errorFactory)
 
     @Test
     fun `searchProducts should return expected products list when API call is successful`() = runBlocking {
@@ -37,10 +38,12 @@ class ProductRepositoryImplTest {
         )
 
         // Act
-        val actualProducts = productRepository.searchProducts(query)
+        val result = productRepository.searchProducts(query)
 
         // Assert
-        assertEquals(expectedProducts, actualProducts)
+        assert(result is DomainResult.Success)
+        assertEquals(expectedProducts, (result as DomainResult.Success).data)
     }
+
 }
 

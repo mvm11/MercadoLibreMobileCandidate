@@ -1,5 +1,7 @@
 package com.example.mercadolibremobilecandidate.product.app.usecase
 
+import com.example.mercadolibremobilecandidate.product.domain.error.DomainError
+import com.example.mercadolibremobilecandidate.product.domain.model.DomainResult
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
 import com.example.mercadolibremobilecandidate.product.domain.repository.ProductRepository
 import junit.framework.TestCase.assertEquals
@@ -25,9 +27,20 @@ class SearchProductsUseCaseTest {
     fun `when searchProducts is called, then it should return a list of products`() = runBlocking {
         // Arrange
         val query = "Motorola G6"
-        val expectedProducts = listOf(
-            Product(id = "1", title = "Motorola G6 Plus", price = 17999.0, thumbnail = "http://example.com/image1.jpg"),
-            Product(id = "2", title = "Motorola G6", price = 14899.0, thumbnail = "http://example.com/image2.jpg")
+        val expectedProducts = DomainResult.Success(
+            listOf(
+                Product(
+                    id = "1",
+                    title = "Motorola G6 Plus",
+                    price = 17999.0,
+                    thumbnail = "http://example.com/image1.jpg"
+                ), Product(
+                    id = "2",
+                    title = "Motorola G6",
+                    price = 14899.0,
+                    thumbnail = "http://example.com/image2.jpg"
+                )
+            )
         )
         `when`(repository.searchProducts(query)).thenReturn(expectedProducts)
 
