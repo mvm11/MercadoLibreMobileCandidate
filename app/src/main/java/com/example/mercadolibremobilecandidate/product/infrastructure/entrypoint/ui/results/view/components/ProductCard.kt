@@ -70,7 +70,7 @@ fun ProductCardDescription(product: Product) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = product.price.toString(),
+        Text(text = "$ ${product.price}",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis)
     }

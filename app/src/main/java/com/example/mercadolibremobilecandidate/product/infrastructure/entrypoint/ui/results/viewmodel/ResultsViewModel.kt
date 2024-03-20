@@ -3,9 +3,8 @@ package com.example.mercadolibremobilecandidate.product.infrastructure.entrypoin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mercadolibremobilecandidate.product.app.usecase.SearchProductsUseCase
-import com.example.mercadolibremobilecandidate.product.domain.error.DomainError
-import com.example.mercadolibremobilecandidate.product.domain.model.Product
 import com.example.mercadolibremobilecandidate.product.domain.model.DomainResult
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.state.ResultsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,39 +16,32 @@ import javax.inject.Inject
 class ResultsViewModel @Inject constructor(private val searchProductsUseCase: SearchProductsUseCase) :
     ViewModel() {
 
-
-    private val _query = MutableStateFlow("")
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-
-    private val _products = MutableStateFlow<List<Product>>(emptyList())
-    val products: StateFlow<List<Product>> = _products.asStateFlow()
-
-    private val _error = MutableStateFlow<DomainError?>(null)
-    val error: StateFlow<DomainError?> = _error.asStateFlow()
-
+    private val _resultsState = MutableStateFlow(ResultsState())
+    val resultsState: StateFlow<ResultsState> = _resultsState.asStateFlow()
 
     fun setQuery(newQuery: String) {
-        newQuery.takeIf { it.isNotEmpty() && it != _query.value }?.let {
-            _query.value = it
-            searchProducts(it)
+        if (newQuery.isNotEmpty() && newQuery != _resultsState.value.query) {
+            _resultsState.value = _resultsState.value.copy(query = newQuery)
+            searchProducts(newQuery)
         }
     }
 
-
     private fun searchProducts(query: String) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _resultsState.value = _resultsState.value.copy(isLoading = true)
             when (val result = searchProductsUseCase(query)) {
                 is DomainResult.Success -> {
-                    _products.value = result.data
-                    _isLoading.value = false
+                    _resultsState.value = _resultsState.value.copy(
+                        products = result.data,
+                        isLoading = false
+                    )
                 }
 
                 is DomainResult.Error -> {
-                    _error.value = result.error
-                    _isLoading.value = false
+                    _resultsState.value = _resultsState.value.copy(
+                        error = result.error,
+                        isLoading = false
+                    )
                 }
             }
         }

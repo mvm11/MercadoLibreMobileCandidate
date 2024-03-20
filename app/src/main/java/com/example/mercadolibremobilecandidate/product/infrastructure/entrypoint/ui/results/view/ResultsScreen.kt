@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -28,47 +27,23 @@ fun ResultsScreen(
     viewModel.setQuery(query)
 
     val configuration = LocalConfiguration.current
-
-    val products = viewModel.products.collectAsState().value
-    val isLoading = viewModel.isLoading.collectAsState().value
-    val error = viewModel.error.collectAsState().value
-
+    val state = viewModel.resultsState.collectAsState().value
 
     when {
-        isLoading -> {
+        state.isLoading -> {
             Loading()
         }
-
-        error != null -> {
-            ErrorScreen(configuration, error)
+        state.error != null -> {
+            ErrorScreen(configuration, state.error)
         }
-
         else -> {
-            ValidateOrientation(configuration, products, navController)
+            Results(configuration, state.products, navController)
         }
     }
 }
 
 @Composable
-fun ValidateOrientation(
-    configuration: Configuration, products: List<Product>, navController: NavHostController
-) {
-
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_LANDSCAPE -> {
-            ResultsScreenLandscapeView(configuration, products, navController)
-        }
-
-        else -> {
-            ResultsScreenLandscapeView(configuration, products, navController)
-        }
-    }
-
-}
-
-
-@Composable
-fun ResultsScreenLandscapeView(
+fun Results(
     configuration: Configuration, products: List<Product>, navController: NavHostController
 ) {
 
@@ -84,7 +59,6 @@ fun ResultsScreenLandscapeView(
             }
         }
     }
-
 }
 
 @Composable
