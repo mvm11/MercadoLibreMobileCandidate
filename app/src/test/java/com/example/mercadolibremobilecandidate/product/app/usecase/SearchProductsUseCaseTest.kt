@@ -30,15 +30,29 @@ class SearchProductsUseCaseTest {
         val expectedProducts = DomainResult.Success(
             listOf(
                 Product(
-                    id = "1",
-                    title = "Motorola G6 Plus",
-                    price = 17999.0,
-                    thumbnail = "http://example.com/image1.jpg"
+                    id = "123",
+                    title = "Example Product",
+                    price = 49.99,
+                    thumbnail = "https://example.com/thumbnail.jpg",
+                    pictures = listOf(
+                        "https://example.com/picture1.jpg",
+                        "https://example.com/picture2.jpg",
+                        "https://example.com/picture3.jpg"
+                    ),
+                    acceptsMercadoPago = true,
+                    freeShipping = true
                 ), Product(
-                    id = "2",
-                    title = "Motorola G6",
-                    price = 14899.0,
-                    thumbnail = "http://example.com/image2.jpg"
+                    id = "123",
+                    title = "Example Product",
+                    price = 49.99,
+                    thumbnail = "https://example.com/thumbnail.jpg",
+                    pictures = listOf(
+                        "https://example.com/picture1.jpg",
+                        "https://example.com/picture2.jpg",
+                        "https://example.com/picture3.jpg"
+                    ),
+                    acceptsMercadoPago = true,
+                    freeShipping = true
                 )
             )
         )

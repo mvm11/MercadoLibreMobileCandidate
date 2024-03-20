@@ -40,7 +40,7 @@ fun ProductCard(configuration: Configuration, navController: NavHostController, 
         Row(
             modifier = Modifier
                 .padding(8.dp)
-                .clickable { navController.navigate("DETAILS/${product.title}") },
+                .clickable { navController.navigate("DETAILS/${product.id}") },
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProductCardThumbnail(product)

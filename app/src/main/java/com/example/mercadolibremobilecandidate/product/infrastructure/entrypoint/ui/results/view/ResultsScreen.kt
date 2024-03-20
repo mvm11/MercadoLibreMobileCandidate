@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.CustomSpacer
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.ErrorScreen
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.Header
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.Loading
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.view.components.ProductCard
@@ -39,7 +40,7 @@ fun ResultsScreen(
         }
 
         error != null -> {
-            Text(text = error.getMessage())
+            ErrorScreen(configuration, error)
         }
 
         else -> {

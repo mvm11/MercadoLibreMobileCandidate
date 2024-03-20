@@ -2,7 +2,7 @@ package com.example.mercadolibremobilecandidate.product.infrastructure.drivenada
 
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
 
-data class ApiResponse(
+data class SearchProductsResponse(
     val siteId: String,
     val query: String,
     val paging: Paging,

@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.detail.DetailsScreen
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.detail.view.DetailsScreen
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.view.ResultsScreen
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.viewmodel.ResultsViewModel
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.search.SearchScreen
@@ -30,10 +30,10 @@ fun MercadoLibreMobileCandidateGraph(navController: NavHostController) {
                 navController = navController)
         }
         composable(
-            "DETAILS/{productName}",
-            arguments = listOf(navArgument("productName") { type = NavType.StringType })
+            "DETAILS/{productId}",
+            arguments = listOf(navArgument("productId") { type = NavType.StringType })
         ) { backStackEntry ->
-            DetailsScreen(backStackEntry.arguments?.getString("productName") ?: "")
+            DetailsScreen(backStackEntry.arguments?.getString("productId") ?: "")
         }
     }
 }

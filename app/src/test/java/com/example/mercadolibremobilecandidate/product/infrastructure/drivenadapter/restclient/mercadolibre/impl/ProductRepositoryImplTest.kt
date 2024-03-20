@@ -5,7 +5,7 @@ import com.example.mercadolibremobilecandidate.product.domain.error.ErrorFactory
 import com.example.mercadolibremobilecandidate.product.domain.model.DomainResult
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
 import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.api.MercadoLibreAPI
-import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.response.ApiResponse
+import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.response.SearchProductsResponse
 import com.example.mercadolibremobilecandidate.product.infrastructure.drivenadapter.restclient.mercadolibre.response.Paging
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -25,11 +25,34 @@ class ProductRepositoryImplTest {
         // Arrange
         val query = "iphone"
         val expectedProducts = listOf(
-            Product(id = "1", title = "Motorola G6 Plus", price = 17999.0, thumbnail = "http://example.com/image1.jpg"),
-            Product(id = "2", title = "Motorola G6", price = 14899.0, thumbnail = "http://example.com/image2.jpg")
+            Product(
+                id = "123",
+                title = "Example Product",
+                price = 49.99,
+                thumbnail = "https://example.com/thumbnail.jpg",
+                pictures = listOf(
+                    "https://example.com/picture1.jpg",
+                    "https://example.com/picture2.jpg",
+                    "https://example.com/picture3.jpg"
+                ),
+                acceptsMercadoPago = true,
+                freeShipping = true),
+            Product(
+                id = "123",
+                title = "Example Product",
+                price = 49.99,
+                thumbnail = "https://example.com/thumbnail.jpg",
+                pictures = listOf(
+                    "https://example.com/picture1.jpg",
+                    "https://example.com/picture2.jpg",
+                    "https://example.com/picture3.jpg"
+                ),
+                acceptsMercadoPago = true,
+                freeShipping = true
+            )
         )
         `when`(mercadoLibreApi.searchProducts(query)).thenReturn(
-            ApiResponse(
+            SearchProductsResponse(
                 siteId = "MCO",
                 query = query,
                 paging = Paging(total = 2, offset = 0, limit = 50, primaryResults = 2),
