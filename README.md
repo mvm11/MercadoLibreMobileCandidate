@@ -1,3 +1,4 @@
+Mercado Libre Mobile Candidate
 
 Esta aplicación permite a los usuarios buscar y explorar productos en Mercado Libre de manera rápida y sencilla. Consta de tres pantallas principales: un campo de búsqueda, una visualización de los resultados de la búsqueda y el detalle de un producto seleccionado. Los usuarios pueden ingresar términos de búsqueda para encontrar productos específicos, ver una lista de resultados con información básica sobre cada producto y acceder a una vista detallada para obtener más información sobre un producto en particular.
 
