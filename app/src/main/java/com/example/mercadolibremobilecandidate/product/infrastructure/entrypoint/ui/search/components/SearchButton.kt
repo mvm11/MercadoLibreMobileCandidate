@@ -14,18 +14,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SearchButton(configuration: Configuration, onClick: () -> Unit) {
+fun SearchButton(configuration: Configuration, query: String, onClick: () -> Unit) {
 
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
-            SearchButtonLandscapeView(screenWidth, screenHeight, onClick)
+            SearchButtonLandscapeView(screenWidth, screenHeight, query, onClick)
         }
 
         else -> {
-            SearchButtonPortraitView(screenWidth, screenHeight, onClick)
+            SearchButtonPortraitView(screenWidth, screenHeight, query, onClick)
         }
     }
 }
@@ -33,6 +33,7 @@ fun SearchButton(configuration: Configuration, onClick: () -> Unit) {
 @Composable
 fun SearchButtonLandscapeView(screenWidth: Dp,
                               screenHeight: Dp,
+                              query: String,
                               onClick: () -> Unit) {
 
     Box(
@@ -43,7 +44,7 @@ fun SearchButtonLandscapeView(screenWidth: Dp,
             modifier = Modifier
                 .width(screenWidth * 0.4f)
                 .height(screenHeight * 0.15f),
-            enabled = true,
+            enabled = query.isNotBlank(),
             shape = RoundedCornerShape(15.dp)
         ) {
             Text(text = "Buscar")
@@ -54,6 +55,7 @@ fun SearchButtonLandscapeView(screenWidth: Dp,
 @Composable
 fun SearchButtonPortraitView(screenWidth: Dp,
                              screenHeight: Dp,
+                             query: String,
                              onClick: () -> Unit) {
 
     Box(
@@ -64,7 +66,7 @@ fun SearchButtonPortraitView(screenWidth: Dp,
             modifier = Modifier
                 .width(screenWidth * 0.7f)
                 .height(screenHeight * 0.07f),
-            enabled = true,
+            enabled = query.isNotBlank(),
             shape = RoundedCornerShape(15.dp)
         ) {
             Text(text = "Buscar")

@@ -31,42 +31,78 @@ fun SearchScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             query,
             onQueryChange = { query = it },
-            onSearch = { navController.navigate("RESULT/$query")}
+            onSearch = { navController.navigate("RESULT/$query") }
         )
     }
 }
 
 @Composable
-fun SearchComponent(modifier: Modifier, query: String, onQueryChange: (String) -> Unit, onSearch: () -> Unit) {
+fun SearchComponent(
+    modifier: Modifier,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: () -> Unit
+) {
 
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
-            Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-                Header()
-                CustomSpacer(width = screenWidth, height = screenHeight * 0.10f)
-                SearchTitle(configuration)
-                CustomSpacer(width = screenWidth, height = screenHeight * 0.03f)
-                QueryField(configuration, query, onQueryChange)
-                CustomSpacer(width = screenWidth, height = screenHeight * 0.05f)
-                SearchButton(configuration, onSearch)
-            }
+            SearchScreenLandscapeView(configuration, modifier, query, onQueryChange, onSearch)
         }
+
         else -> {
-            Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-                Header()
-                CustomSpacer(width = screenWidth, height = screenHeight * 0.20f)
-                SearchTitle(configuration)
-                CustomSpacer(width = screenWidth, height = screenHeight * 0.03f)
-                QueryField(configuration, query, onQueryChange)
-                CustomSpacer(width = screenWidth, height = screenHeight * 0.03f)
-                SearchButton(configuration, onSearch)
-            }
+            SearchScreenPortraitView(configuration, modifier, query, onQueryChange, onSearch)
         }
     }
 }
+
+@Composable
+fun SearchScreenLandscapeView(
+    configuration: Configuration,
+    modifier: Modifier,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: () -> Unit
+) {
+
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
+
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Header()
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.10f)
+        SearchTitle(configuration)
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.03f)
+        QueryField(configuration, query, onQueryChange)
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.05f)
+        SearchButton(configuration, query, onSearch)
+    }
+}
+
+@Composable
+fun SearchScreenPortraitView(
+    configuration: Configuration,
+    modifier: Modifier,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: () -> Unit
+) {
+
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
+
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Header()
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.20f)
+        SearchTitle(configuration)
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.03f)
+        QueryField(configuration, query, onQueryChange)
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.03f)
+        SearchButton(configuration, query, onSearch)
+    }
+}
+
+
 
 

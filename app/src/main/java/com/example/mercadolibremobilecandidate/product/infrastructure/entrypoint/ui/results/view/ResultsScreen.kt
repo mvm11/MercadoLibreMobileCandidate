@@ -1,28 +1,32 @@
 package com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.view
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.mercadolibremobilecandidate.product.domain.model.Product
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.CustomSpacer
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.Header
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.common.Loading
+import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.view.components.ProductCard
 import com.example.mercadolibremobilecandidate.product.infrastructure.entrypoint.ui.results.viewmodel.ResultsViewModel
 
 @Composable
-fun ResultsScreen(query: String,
-                  viewModel: ResultsViewModel = hiltViewModel(),
-                  navController: NavHostController) {
+fun ResultsScreen(
+    query: String, viewModel: ResultsViewModel = hiltViewModel(), navController: NavHostController
+) {
 
     viewModel.setQuery(query)
+
+    val configuration = LocalConfiguration.current
 
     val products = viewModel.products.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
@@ -31,29 +35,62 @@ fun ResultsScreen(query: String,
 
     when {
         isLoading -> {
-            Text(text = "Cargando...")
+            Loading()
         }
+
         error != null -> {
             Text(text = error.getMessage())
         }
+
         else -> {
-            LazyColumn {
-                items(products) { product ->
-                    ProductItem(product, navController)
-                }
-            }
+            ValidateOrientation(configuration, products, navController)
         }
     }
 }
 
 @Composable
-fun ProductItem(product: Product, navController: NavHostController) {
-    Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable { navController.navigate("DETAILS/${product.title}") }
-    ) {
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = product.title)
+fun ValidateOrientation(
+    configuration: Configuration, products: List<Product>, navController: NavHostController
+) {
+
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            ResultsScreenLandscapeView(configuration, products, navController)
+        }
+
+        else -> {
+            ResultsScreenLandscapeView(configuration, products, navController)
+        }
     }
+
+}
+
+
+@Composable
+fun ResultsScreenLandscapeView(
+    configuration: Configuration, products: List<Product>, navController: NavHostController
+) {
+
+    val screenWidth = configuration.screenWidthDp.dp
+    val screenHeight = configuration.screenHeightDp.dp
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Header()
+        CustomSpacer(width = screenWidth, height = screenHeight * 0.01f)
+        LazyColumn {
+            items(products) { product ->
+                ProductItem(configuration, navController, product)
+            }
+        }
+    }
+
+}
+
+@Composable
+fun ProductItem(
+    configuration: Configuration,
+    navController: NavHostController,
+    product: Product,
+) {
+    ProductCard(configuration, navController, product)
 }
