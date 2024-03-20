@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.MercadoLibreSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FBE404</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/mercado_libre_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.MercadoLibreNoActionBar</item>
+    </style>
+
+    <style name="Theme.MercadoLibreNoActionBar" parent="android:Theme.Material.Light.NoActionBar"/>
+    <style name="Theme.MercadoLibreNoActionBar.Dark" parent="android:Theme.Material"/>
     <style name="Theme.MercadoLibreMobileCandidate" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
